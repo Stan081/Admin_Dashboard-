@@ -20,12 +20,29 @@ class DashboardScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 5,
-                child: Container(
-                  height: 500,
-                  color: Colors.white,
-                ),
-              ),
+                  flex: 5,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "My Files",
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                          ElevatedButton.icon(
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: defaultPadding * 1.5,
+                                    vertical: defaultPadding)),
+                            onPressed: () {},
+                            icon: Icon(Icons.add),
+                            label: Text("Add New"),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
               const SizedBox(
                 width: defaultPadding,
               ),
