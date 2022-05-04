@@ -12,6 +12,8 @@ class StorageDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(
+          vertical: defaultPadding, horizontal: defaultPadding / 2),
       decoration: const BoxDecoration(
           color: secondaryColor,
           borderRadius: BorderRadius.all(Radius.circular(10))),
