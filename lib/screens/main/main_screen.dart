@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_dashboard/controllers/MenuController.dart';
 import 'package:responsive_dashboard/screens/dashboard/dashboard_screen.dart';
+import '../../responsive.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
@@ -8,14 +11,17 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: context.read<MenuController>().scaffoldKey,
+      drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Expanded(
-              child: SideMenu(),
-            ),
-            Expanded(
+          children: [
+            if (Responsive.isDesktop(context))
+              const Expanded(
+                child: SideMenu(),
+              ),
+            const Expanded(
                 //default flex = 1, but this takes 5/6 of the entire screen
                 flex: 5,
                 child: DashboardScreen())

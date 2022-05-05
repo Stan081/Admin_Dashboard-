@@ -13,7 +13,7 @@
             "name": "responsive_dashboard (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "profile"
         },
         {
             "name": "responsive_dashboard (release mode)",

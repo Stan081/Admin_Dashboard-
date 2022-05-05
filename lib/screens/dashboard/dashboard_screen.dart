@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_dashboard/responsive.dart';
 import '../../constants.dart';
 import 'components/header.dart';
 import 'components/my_files.dart';
@@ -24,22 +25,29 @@ class DashboardScreen extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Column(
-                  children: const [
+                  children: [
                     MyFiles(),
-                    SizedBox(
+                    const SizedBox(
                       height: defaultPadding,
                     ),
-                    RecentFiles()
+                    RecentFiles(),
+                    if (Responsive.isMobile(context))
+                      const SizedBox(
+                        height: defaultPadding,
+                      ),
+                    if (Responsive.isMobile(context)) StorageDetails(),
                   ],
                 ),
               ),
-              const SizedBox(
-                width: defaultPadding,
-              ),
-              const Expanded(
-                flex: 2,
-                child: StorageDetails(),
-              )
+              if (!Responsive.isMobile(context))
+                const SizedBox(
+                  width: defaultPadding,
+                ),
+              if (!Responsive.isMobile(context))
+                const Expanded(
+                  flex: 2,
+                  child: StorageDetails(),
+                ),
             ],
           ),
         ]),

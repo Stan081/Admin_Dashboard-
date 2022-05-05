@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:responsive_dashboard/responsive.dart';
 
 import '../../../constants.dart';
 import '../../../models/MyFiles.dart';
@@ -12,6 +13,7 @@ class MyFiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size _size = MediaQuery.of(context).size;
     return Column(
       children: [
         Row(
@@ -23,9 +25,10 @@ class MyFiles extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                       horizontal: defaultPadding * 1.5,
-                      vertical: defaultPadding)),
+                      vertical: defaultPadding /
+                          (Responsive.isMobile(context) ? 2 : 1))),
               onPressed: () {},
               icon: const Icon(Icons.add),
               label: const Text("Add New"),
@@ -35,18 +38,44 @@ class MyFiles extends StatelessWidget {
         const SizedBox(
           height: defaultPadding,
         ),
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: demoMyFiles.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: defaultPadding,
-              childAspectRatio: 1.5),
-          itemBuilder: (context, index) => FileInfoCard(
-            info: demoMyFiles[index],
-          ),
-        ),
+        Responsive(
+            mobile: FileInfoCardgridView(
+              crossAxisCount: _size.width < 650 ? 2 : 4,
+              childAspectRatio: _size.width < 650 ? 1.3 : 1,
+            ),
+            tablet: FileInfoCardgridView(),
+            desktop: FileInfoCardgridView(
+              childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+            )),
       ],
+    );
+  }
+}
+
+class FileInfoCardgridView extends StatelessWidget {
+  final int crossAxisCount;
+  final double childAspectRatio;
+
+  const FileInfoCardgridView({
+    Key? key,
+    this.crossAxisCount = 4,
+    this.childAspectRatio = 1,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: demoMyFiles.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: defaultPadding,
+          mainAxisSpacing: defaultPadding,
+          childAspectRatio: childAspectRatio),
+      itemBuilder: (context, index) => FileInfoCard(
+        info: demoMyFiles[index],
+      ),
     );
   }
 }
